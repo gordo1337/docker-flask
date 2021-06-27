@@ -1,29 +1,16 @@
-version: "3"
-
-services:
-  flask: 
-    image: alpine:latest
+version: '3.6'  
+services:  
+  app:
+    build: .
     depends_on:
       - redis
+    environment:
+      - REDIS_HOST=redis
     ports:
-      - 5000:5000
-    networks:
-      - localhost
-    restart: always    
-
-
+      - "5000:5000"
   redis:
-    hostname: redis
-    image: redis:latest
-    networks:
-      - localhost
-    ports:
-      - 6379:6379
+    image: redis
     volumes:
-      - "redisdata:/data"
-    restart: always    
-
-volumes:
-  redisdata:
-networks:
-  localhost:
+      - redis_data:/data
+volumes:  
+  redis_data:
