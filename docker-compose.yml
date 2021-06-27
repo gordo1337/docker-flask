@@ -1,21 +1,29 @@
-services:
-  server:
-    container_name: flask
-    environment:
-      - FLASK_APP=server:create_app()
-      - FLASK_DEBUG=1
-    volumes:
-      - ./project:/app
-    command: python app.py flask run --host=0.0.0.0 --port=5000
-    ports:
-      -5000-5000
-    depends on:
-      -redis 
-  redis:
-    image:redis 
-    ports:
-      -6379:6379
+version: "3"
 
-  volumes:
-    -redis-data:/data
-volumes: redis-data
+services:
+  flask: 
+    image: alpine:latest
+    depends_on:
+      - redis
+    ports:
+      - 5000:5000
+    networks:
+      - localhost
+    restart: always    
+
+
+  redis:
+    hostname: redis
+    image: redis:latest
+    networks:
+      - localhost
+    ports:
+      - 6379:6379
+    volumes:
+      - "redisdata:/data"
+    restart: always    
+
+volumes:
+  redisdata:
+networks:
+  localhost:
