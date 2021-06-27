@@ -9,7 +9,7 @@ RUN apk add --update py-pip
 
 # install Python modules needed by the Python app
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # copy files required for the app to run
 COPY app.py .
@@ -18,4 +18,4 @@ COPY app.py .
 EXPOSE 5000
 
 # run the application
-RUN flask run --host=0.0.0.0 --port=5000
+CMD flask run --host=0.0.0.0 --port=5000
